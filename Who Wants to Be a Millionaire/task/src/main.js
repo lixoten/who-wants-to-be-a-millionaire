@@ -12,85 +12,77 @@ const game = async () => {
         const container = document.getElementById("container");
         // const extraContainer = document.getElementById("extraInfo");
 
+
         const MAX_QUESTIONS = 15;
-
-        // Generate a random index for the first question
-        let questionIndex = 0;
-        //let questionIndex = Math.floor(Math.random() * data.length);
-        // let totQuestion = data.length;
-
+        let questionIndex = Math.floor(Math.random() * data.length); // Generate a random index for the first question
+        questionIndex = 0;
         let totalCorrectQuestions = 0;
         let totalAskedQuestions = 0;
         let hintUsed = false;
+        let skipUsed = false;
+        // let totQuestion = data.length;
 
-        let correctAnswer = '';
-
-
-        //const option = ['A', 'B', 'C', 'D'];
         let optionsKeyArr = ['A', 'B', 'C', 'D'];
 
+        let correctAnswer = '';
 
         function setButtons() {
             container.textContent = ''; // Clear container here, First think to use it
 
-                 const hintBtn = document.createElement("button");
-                 hintBtn.textContent = `50/50`;
-                 hintBtn.id = "fiftyFiftyBtn";
-                 hintBtn.addEventListener('click', () => {
-                     hintUsed = true;
-                     function shuffleArray(array) {
-                         for (let i = array.length - 1; i > 0; i--) {
-                             const j = Math.floor(Math.random() * (i + 1));
-                             [array[i], array[j]] = [array[j], array[i]];
-                         }
-                     }
 
-                     // the ... makes a new copy, not a reference
-                     let tmpArr = [...optionsKeyArr];
-                     shuffleArray(tmpArr);
+            const hintBtn = document.createElement("button");
+            hintBtn.textContent = `50/50`;
+            hintBtn.id = "fiftyFiftyBtn";
+            hintBtn.addEventListener('click', () => {
+                hintUsed = true;
+                hintBtn.style.display = 'none';
 
-                     let tmpIncorrectCount = 0;
-                     tmpArr.forEach((item, index) => {
-                         if (item !== correctAnswer && tmpIncorrectCount < 2) {
-                             const optionElement = document.getElementById(item);
-                             if (optionElement) {
-                                 const element = document.getElementById(item)
-
-                                 // the test specs said not to remove from DOM.
-                                 //optionElement.style.display = 'none';
-                                 optionElement.style.visibility = 'hidden';
-                                 //if (element && element.parentNode) {
-                                 //    element.remove();
-                                 //    //data[questionIndex]['question'];
-                                 //}
-                                 tmpIncorrectCount++;
-                             }
-                             tmpArr.splice(index, 1)
-                             //cnt ++;
-                         }
-                     });
-                     //hintBtn.style.visibility = 'hidden';
-                     //return;
-                     if (hintUsed) {
-                         hintBtn.style.display = 'none';
-                         // hintBtn.style.visibility = 'hidden';
-                     }
-                 });
-
-                if (hintUsed) {
-                    hintBtn.style.display = 'none';
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
                 }
-                 container.appendChild(hintBtn);
+
+                // the ... makes a new copy, not a reference
+                let tmpArr = [...optionsKeyArr];
+                //shuffleArray(tmpArr);
+
+                let tmpIncorrectCount = 0;
+                tmpArr.forEach((item, index) => {
+                    if (item !== correctAnswer && tmpIncorrectCount < 2) {
+                        const optionElement = document.getElementById(item);
+                        if (optionElement) {
+                            const element = document.getElementById(item)
+
+                            // the test specs said not to remove from DOM.
+                            optionElement.style.visibility = 'hidden';
+                            tmpIncorrectCount++;
+                        }
+                        // tmpArr.splice(index, 1)
+                    }
+                });
+            });
+            if (hintUsed) {
+                hintBtn.style.display = 'none';
+            }
+            container.appendChild(hintBtn);
             //}
 
             const skipBtn = document.createElement("button");
             skipBtn.textContent = `Skip the question`;
             skipBtn.id = "skipTheQuestionBtn";
             skipBtn.addEventListener('click', () => {
+                skipUsed = true;
+                skipBtn.style.display = 'none';
                 questionIndex++;
-            //     totalSkippedQuestions++;
+                // totalSkippedQuestions++;
                 processQuestion();
             });
+            if (skipUsed) {
+                skipBtn.style.display = 'none';
+            }
+
             container.appendChild(skipBtn);
         }
 
@@ -139,19 +131,7 @@ const game = async () => {
 
 
         function gameOver() {
-            //container.textContent = ''; // Clear container
-
-            //hintBtn.style.visibility = 'hidden';
-            //setButtons();
-            const btn1  = document.getElementById("fiftyFiftyBtn");
-            btn1.style.display = "none";
-            const btn2  = document.getElementById("skipTheQuestionBtn");
-            btn2.style.display = "none";
-            const question  = document.getElementById("question");
-            question.style.display = "none";
-            const options  = document.getElementById("options");
-            options.style.display = "none";
-
+            container.textContent = ''; // Clear container
 
             const p = document.createElement("p");
             p.textContent = "You Lose! " + `You got a total of ${totalCorrectQuestions} right.`;
@@ -159,15 +139,7 @@ const game = async () => {
         }
 
         function gameOverYouWin() {
-            //container.textContent = ''; // Clear container
-            const btn1  = document.getElementById("fiftyFiftyBtn");
-            btn1.style.display = "none";
-            const btn2  = document.getElementById("skipTheQuestionBtn");
-            btn2.style.display = "none";
-            //const question  = document.getElementById("question");
-            //question.style.display = "none";
-            //const options  = document.getElementById("options");
-            //options.style.display = "none";
+            container.textContent = ''; // Clear container
 
             const p = document.createElement("p");
             p.textContent = "YOU WIN! " + `You got a total of ${totalCorrectQuestions} right.`;
@@ -176,10 +148,6 @@ const game = async () => {
 
         const processQuestion = () => {
             const question = data[questionIndex]['question'];
-            // const optionA = data[questionIndex]['A'];
-            // const optionB = data[questionIndex]['B'];
-            // const optionC = data[questionIndex]['C'];
-            // const optionD = data[questionIndex]['D'];
             const answer = data[questionIndex]['answer'];
 
             if (!question) return; // No more questions
