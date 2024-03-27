@@ -2,41 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Stage 1/5: Connecting to a JSON file">
+    <meta name="description" content="Stage 2/5: Structure of the game">
     <title>Who Wants to Be a Millionaire</title>
     <!--<link rel="stylesheet" href="css/style.css">-->
     <style>
+      ol {
+        list-style-type: none;
+      }
+
+      .opt:hover {
+        color: red;
+      }
 
     </style>
 </head>
 <body>
-<h1>Game: "Who Wants to Be a Millionaire?"</h1>
-<div id="container">
+    <h1>Game: "Who Wants to Be a Millionaire?"</h1>
+    <div id="container" class="fooo">
 </div>
-<!--<script src="main.js"></script>-->
-<script>
-    const game = async () => {
-        try {
-            const url = 'http://localhost:8080/question.json';
-
-            const response = await fetch(url);
-            if (!response.ok) {
-                const errorMessage = `Failed to fetch data from ${url}: ${response.status} ${response.statusText}`;
-                document.getElementById("container").textContent = errorMessage;
-                return; // Exit if fail
-            }
-
-            const data = await response.json();
-
-            const container = document.getElementById("container")
-
-            container.textContent = JSON.stringify(data)
-
-        } catch (error) {
-            document.getElementById("container").textContent = `Unexpected error: ${error.message}`;
-        }
-    }
-    game();
-</script>
+<!--<script src="main_innerhtml.js"></script>-->
+<script src="main.js"></script>
 </body>
 </html>

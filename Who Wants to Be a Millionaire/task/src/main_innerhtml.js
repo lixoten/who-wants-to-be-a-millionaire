@@ -22,64 +22,54 @@ const game = async () => {
         let totalCorrectQuestions = 0;
         let totalAskedQuestions = 0;
 
-
         //const option = ['A', 'B', 'C', 'D'];
         let optionsKeyArr = ['A', 'B', 'C', 'D'];
 
         function dispQuestion(question) {
-            container.textContent = ''; // Clear container for the new question
-
-            const p = document.createElement("p");
-            p.textContent = (totalAskedQuestions + 1) + ". " + question;
-            container.appendChild(p);
-
+            container.innerHTML = `<p>${(totalAskedQuestions + 1)} ${question}</p>`;
         }
 
         function dispOptions(optionsArr, answer) {
-            const ol = document.createElement("ol");
-            container.appendChild(ol);
+            let tempLi= "";
 
             optionsArr.forEach(function (optionText, index) {
-                const li = document.createElement("li");
-                //li.textContent = `${optionsArr[index]}. ${optionText}`;
-                li.textContent = `${optionsArr[index]}. ${data[questionIndex][optionsArr[index]]}`;
+                tempLi += `<li class="opt" 
+                               >
+                               ${optionsArr[index]}. ${data[questionIndex][optionsArr[index]]}</li>`;
+            });
 
-                li.classList.add("opt");
-                li.addEventListener('click', () => {
-                    totalAskedQuestions++;
-                    if (checkAnswer(index, answer)) {
-                        totalCorrectQuestions++;
-                        questionIndex++;
-                        processQuestion();
-                    } else {
-                        gameOver()
-                        return;
-                    }
-                });
+            const tempOl = `<ol>${tempLi}</ol>`;
+            container.innerHTML += tempOl;
 
-                ol.appendChild(li);
+            // Attach event listeners to the options
+            document.querySelectorAll('#opt').forEach((option, index) => {
+                option.addEventListener('click', () => handleOptionClick(index, answer));
             });
         }
+
+        function handleOptionClick(index, answer) {
+            totalAskedQuestions++;
+            if (checkAnswer(index, answer)) {
+                totalCorrectQuestions++;
+                questionIndex++;
+                processQuestion();
+            } else {
+                gameOver()
+                return;
+            }
+        }
+
 
         function checkAnswer(userAnswer, correctAnswer) {
             return (optionsKeyArr[userAnswer] === correctAnswer);
         }
 
-
         function gameOver() {
-            container.textContent = ''; // Clear container
-
-            const p = document.createElement("p");
-            p.textContent = "You Lose! " + `You got a total of ${totalCorrectQuestions} right.`;
-            container.appendChild(p);
+            container.innerHTML = `<p>You Lose! You got a total of ${totalCorrectQuestions} right.</p>`;
         }
 
         function gameOverYouWin() {
-            container.textContent = ''; // Clear container
-
-            const p = document.createElement("p");
-            p.textContent = "YOU WIN! " + `You got a total of ${totalCorrectQuestions} right.`;
-            container.appendChild(p);
+            container.innerHTML = `<p>YOU WIN! You got a total of ${totalCorrectQuestions} right.</p>`
         }
 
         const processQuestion = () => {
