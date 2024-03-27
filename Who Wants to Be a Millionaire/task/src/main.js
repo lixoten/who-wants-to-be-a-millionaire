@@ -21,32 +21,104 @@ const game = async () => {
 
         let totalCorrectQuestions = 0;
         let totalAskedQuestions = 0;
+        let hintUsed = false;
+
+        let correctAnswer = '';
 
 
         //const option = ['A', 'B', 'C', 'D'];
         let optionsKeyArr = ['A', 'B', 'C', 'D'];
 
-        function dispQuestion(question) {
-            container.textContent = ''; // Clear container for the new question
 
+        function setButtons() {
+            container.textContent = ''; // Clear container here, First think to use it
+
+                 const hintBtn = document.createElement("button");
+                 hintBtn.textContent = `50/50`;
+                 hintBtn.id = "fiftyFiftyBtn";
+                 hintBtn.addEventListener('click', () => {
+                     hintUsed = true;
+                     function shuffleArray(array) {
+                         for (let i = array.length - 1; i > 0; i--) {
+                             const j = Math.floor(Math.random() * (i + 1));
+                             [array[i], array[j]] = [array[j], array[i]];
+                         }
+                     }
+
+                     // the ... makes a new copy, not a reference
+                     let tmpArr = [...optionsKeyArr];
+                     shuffleArray(tmpArr);
+
+                     let tmpIncorrectCount = 0;
+                     tmpArr.forEach((item, index) => {
+                         if (item !== correctAnswer && tmpIncorrectCount < 2) {
+                             const optionElement = document.getElementById(item);
+                             if (optionElement) {
+                                 const element = document.getElementById(item)
+
+                                 // the test specs said not to remove from DOM.
+                                 //optionElement.style.display = 'none';
+                                 optionElement.style.visibility = 'hidden';
+                                 //if (element && element.parentNode) {
+                                 //    element.remove();
+                                 //    //data[questionIndex]['question'];
+                                 //}
+                                 tmpIncorrectCount++;
+                             }
+                             tmpArr.splice(index, 1)
+                             //cnt ++;
+                         }
+                     });
+                     //hintBtn.style.visibility = 'hidden';
+                     //return;
+                     if (hintUsed) {
+                         hintBtn.style.display = 'none';
+                         // hintBtn.style.visibility = 'hidden';
+                     }
+                 });
+
+                if (hintUsed) {
+                    hintBtn.style.display = 'none';
+                }
+                 container.appendChild(hintBtn);
+            //}
+
+            const skipBtn = document.createElement("button");
+            skipBtn.textContent = `Skip the question`;
+            skipBtn.id = "skipTheQuestionBtn";
+            skipBtn.addEventListener('click', () => {
+                questionIndex++;
+            //     totalSkippedQuestions++;
+                processQuestion();
+            });
+            container.appendChild(skipBtn);
+        }
+
+
+        function dispQuestion(question) {
             const p = document.createElement("p");
             p.textContent = (totalAskedQuestions + 1) + ". " + question;
+            p.id = "question";
             container.appendChild(p);
 
         }
 
         function dispOptions(optionsArr, answer) {
+            totalAskedQuestions++;
+
             const ol = document.createElement("ol");
+            ol.id = "options";
             container.appendChild(ol);
 
             optionsArr.forEach(function (optionText, index) {
                 const li = document.createElement("li");
+
                 //li.textContent = `${optionsArr[index]}. ${optionText}`;
                 li.textContent = `${optionsArr[index]}. ${data[questionIndex][optionsArr[index]]}`;
+                li.id = optionsArr[index]; // We need the ID so we can hide item on 50/50
 
                 li.classList.add("opt");
                 li.addEventListener('click', () => {
-                    totalAskedQuestions++;
                     if (checkAnswer(index, answer)) {
                         totalCorrectQuestions++;
                         questionIndex++;
@@ -67,7 +139,19 @@ const game = async () => {
 
 
         function gameOver() {
-            container.textContent = ''; // Clear container
+            //container.textContent = ''; // Clear container
+
+            //hintBtn.style.visibility = 'hidden';
+            //setButtons();
+            const btn1  = document.getElementById("fiftyFiftyBtn");
+            btn1.style.display = "none";
+            const btn2  = document.getElementById("skipTheQuestionBtn");
+            btn2.style.display = "none";
+            const question  = document.getElementById("question");
+            question.style.display = "none";
+            const options  = document.getElementById("options");
+            options.style.display = "none";
+
 
             const p = document.createElement("p");
             p.textContent = "You Lose! " + `You got a total of ${totalCorrectQuestions} right.`;
@@ -75,7 +159,15 @@ const game = async () => {
         }
 
         function gameOverYouWin() {
-            container.textContent = ''; // Clear container
+            //container.textContent = ''; // Clear container
+            const btn1  = document.getElementById("fiftyFiftyBtn");
+            btn1.style.display = "none";
+            const btn2  = document.getElementById("skipTheQuestionBtn");
+            btn2.style.display = "none";
+            //const question  = document.getElementById("question");
+            //question.style.display = "none";
+            //const options  = document.getElementById("options");
+            //options.style.display = "none";
 
             const p = document.createElement("p");
             p.textContent = "YOU WIN! " + `You got a total of ${totalCorrectQuestions} right.`;
@@ -92,6 +184,9 @@ const game = async () => {
 
             if (!question) return; // No more questions
 
+            correctAnswer = answer;
+
+            setButtons();
             if (!question || totalAskedQuestions >= MAX_QUESTIONS) {
                 if (totalAskedQuestions >= MAX_QUESTIONS) {
                     gameOverYouWin();
