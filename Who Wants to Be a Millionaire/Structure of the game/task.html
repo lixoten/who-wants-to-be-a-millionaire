@@ -1,0 +1,16 @@
+<div class="step-text">
+<p></p><h5 id="description">Description</h5><p>The second stage is where you develop the game logic. As you have already noticed, questions and answers are stored as objects. Objects allow you to group data (for example, variables) into a single object that is easy to use. Thus, the question, possible answers, and one correct answer will be part of one object. For the convenience of displaying an object, it is better to use a list. This object will be randomly selected and displayed on the screen. Beware, no more than 15 questions.</p><p>We will also check the answer for correctness. When you click on the answer, we check whether it is correct. If yes, then proceed to the next question. Otherwise, we display a message about the loss. To check whether the answer provided by the user is correct, you should simply compare it with the field of a specific object.</p><p>There is a recommendation on how to switch levels. Only a few things can happen at one level, so it's worth trying conditional operators to make everything work. If this answer is correct, the level increases, and the next iteration begins. Otherwise, the game ends.</p><p>For the convenience of reading the code, create a separate function for each action (for example, the output of questions, checking the answer, etc.).</p><p></p><div class="alert alert-primary"><p>Do not forget that in order for the code to work correctly and the tests to pass, it is necessary to use a local server:</p><p></p><p><code class="language-javascript">http-server --cors</code></p></div><p></p><h5 id="objectives">Objectives</h5><p>This stage is probably the toughest, but the most interesting. In the output, you should have:</p><ul><li><p>function for the output of questions and answer options;</p></li><li><p>function to check the user's response.<br/>Get the answer the user sent by clicking on one of the answers and check whether it's correct or not;</p></li></ul><pre><code class="language-javascript">let checkTheAnswer = () =&gt; {
+  userAnswer === correctAnswer ? continue : break;
+}
+</code></pre><ul><li><p>switch levels depending on the given answers;</p></li><li><p>output no more than 15 questions.</p></li></ul><pre><code class="language-javascript">let questionNumber = 0;
+
+let outputRandomQuestions = () =&gt; {
+  let dataQuestion = dataJSON[random];
+
+  if (questionNumber &lt; 15) {
+	questionNumber++;
+	...
+  }
+}
+</code></pre><ul><li><p></p></li></ul><ul><li><p></p></li></ul><h5 id="example">Example</h5><p><strong>Example 1:</strong></p><p style="text-align: center;"><picture><img alt="" height="172" src="https://ucarecdn.com/c585b944-8a5e-4816-bc70-ba763e8fe449/" width="622"/></picture></p>
+</div>

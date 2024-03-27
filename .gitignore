@@ -1,0 +1,7 @@
+/node_modules/
+/notes/
+/Topics/
+*.yaml
+*.idea
+*.py
+requirements.txt

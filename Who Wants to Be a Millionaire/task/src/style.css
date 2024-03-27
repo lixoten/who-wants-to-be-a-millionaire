@@ -1,0 +1,11 @@
+p, ol {
+    margin: 0;
+}
+
+li {
+    cursor: pointer;
+}
+
+li:hover {
+    color: grey;
+}

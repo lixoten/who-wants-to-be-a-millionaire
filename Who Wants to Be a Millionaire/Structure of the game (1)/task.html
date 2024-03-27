@@ -1,0 +1,23 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>In this stage, you will add hints to the game.</p>
+<p>As in the real tv show, our game should provide the user with hints, but we will make the task a little easier for ourselves and output only two hints. You will have the 50/50 hint (the ability to leave 2 out of 4 answers) and skip the question feature.</p>
+<p>The 50/50 hint assumes that one answer is correct and the other is incorrect. Therefore, we need to ensure that one correct one is output and the other is randomly selected from the other three incorrect ones.</p>
+<p>Like in a real game, the hint can be used only once. Therefore, after using the hint, it is necessary to hide it. Do not delete from the DOM, it may cause errors.</p>
+<p></p><div class="alert alert-primary">Do not forget that in order for the code to work correctly and the tests to pass, it is necessary to use a local server:
+
+<p><code class="java">http-server --cors</code></p></div>
+<h5 id="objectives">Objectives</h5>
+<p>By the end of it, your program should:</p>
+<ul>
+<li>provide all hints;</li>
+<li>have the button with <code class="java">id=fiftyFiftyBtn</code> when you click on the button, we output two answers — one is correct, the other is not ;</li>
+<li>have the button with <code class="java">id=skipTheQuestionBtn</code> when you click on the button, go to the next question;</li>
+<li>hide the hint button if it was pressed.</li>
+</ul>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1: </strong><em>using the 50/50 hint</em></p>
+<p style="text-align: center;"><picture><img alt="" height="193" name="stage_3.1.gif" src="https://ucarecdn.com/f42eceae-0d4b-4ad1-a73b-b8affde4d979/" width="698"/></picture></p>
+<p><strong>Example 2: </strong><em>using the Skip the question hint</em></p>
+<p style="text-align: center;"><picture><img alt="" height="168" name="stage_3.gif" src="https://ucarecdn.com/08d2a0b2-c46b-4d71-b16c-1bbcf68b4b96/" width="722"/></picture></p>
+</div>
